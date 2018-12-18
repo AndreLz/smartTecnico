@@ -86,6 +86,7 @@ if(Yii::$app->user->isGuest){
 					],
                     [ 'label' => 'Goals Plan', 'icon' => 'fa fa-search', 'url' => '#',],
                     ['label' => 'QHI Board', 'icon' => 'fa fa-check-square-o', 'url' => '#'],
+                    ['label' => 'APP Instalação', 'icon' => 'fa fa-check-square-o', 'url' => ['/appinstalacao/index']],
 					//['label' => 'Load ON', 'icon' => 'fa fa-line-chart', 'url' => ['/site/loadon']],
 					//['label' => 'Control of Inspector Load', 'icon' => 'fa fa-line-chart', 'url' => ['/site/index']],
 
