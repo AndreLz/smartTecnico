@@ -19,14 +19,14 @@ $script = <<< JS
 		function moveUpestado(thisObject) {
 			thisObject.appendTo(thisObject.parents('svg>g'));
 		}
-
+/*
 		$('.mapa-svg-estados').click(function () {
 			$(this).siblings().removeClass('mapa-svg-estados-active');
 			$(this).addClass('mapa-svg-estados-active');
 			$('.class-select').val($(this).attr('id')).trigger('change');
 			moveUpestado($(this));
 		});
-		
+*/		
 		/*
 		
 		$('.mapa-svg-estados').click(function () {
@@ -54,18 +54,18 @@ $script = <<< JS
 
 
 Pusher.logToConsole = true;
-/*heroku
+//heroku
 var pusher = new Pusher('b193b50aea652a0401ad', {
       cluster: 'mt1',
       forceTLS: true
-});*/
+});
 
-//Teste local
+/*Teste local
 var pusher = new Pusher('93a1a948489cdb5415f4', {
       cluster: 'us2',
       forceTLS: true
     });
-
+*/
 
 
 var channel = pusher.subscribe('my-channel');
@@ -142,6 +142,7 @@ function get_asc(id){
 var allInst;
 /*
 $(document).ready(function(){
+    window.location.href = '#titulo';
         $.ajax({
             url: 'https://api.mlab.com/api/1/databases/tecsdb/collections/tecs?apiKey=FadNlSlxW08n39zzET_9idXHX-6AyL3w',
             type: 'GET',
@@ -195,8 +196,12 @@ $this->registerCss("
 
 		th, td {
 		  text-align: center;
-		  padding: 3px;
+		  padding: 1px;
+
+          //4px na lg
+//padding: 4px;
 		  border: 1px solid #dddddd;
+
   
 		}
 
@@ -308,8 +313,12 @@ $this->registerCss("
 $this->registerJsFile('https://js.pusher.com/4.3/pusher.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
 ?>
+<br>
+<div class="statusrohs-index">
+        <div class="box box-danger container">
+           
 
-	<div class="map-area-transform">
+	<div class="map-area-transform" href = '#' id = "mapaP">
 		<svg xmlns="http://www.w3.org/2000/svg" class="mapa-svg-estados-svg" width="452" height="452"
 					viewBox="150 60 452 452" class="a">
 			<g id="mapa-svg-area">
@@ -513,7 +522,7 @@ $this->registerJsFile('https://js.pusher.com/4.3/pusher.min.js', ['depends' => [
 			<th>SET</th>
 			<th>OUT</th>
 			<th>NOV</th>
-			<th>DEV</th>
+			<th>DEZ</th>
 		  </tr>
 		</thead>
 		
@@ -926,7 +935,8 @@ $this->registerJsFile('https://js.pusher.com/4.3/pusher.min.js', ['depends' => [
 		</tbody>
 	</table>
 </div>
-
+</div>
+    </div>
 <!--
 
 <div class="container-fluid">
