@@ -140,26 +140,26 @@ function get_asc(id){
 
 
 var allInst;
-/*
+
 $(document).ready(function(){
     window.location.href = '#titulo';
         $.ajax({
-            url: 'https://api.mlab.com/api/1/databases/tecsdb/collections/tecs?apiKey=FadNlSlxW08n39zzET_9idXHX-6AyL3w',
+            url: 'https://api.mlab.com/api/1/databases/tecsdb/collections/instalacaos?apiKey=FadNlSlxW08n39zzET_9idXHX-6AyL3w',
             type: 'GET',
             success: function (data) {
                 var txt = "";
                 data.forEach(function (arrayItem) {
-                    txt += " - "+arrayItem.asc;
+                    console.log(arrayItem.data[Object.keys(arrayItem.data)[0]]);
+                    txt += " - " + arrayItem.data[Object.keys(arrayItem.data)[0]];
                 });
-                $('#container').text(txt); 
-				//alert(d.getWeek());
+                $('#ajax').text(txt);
             },
             error: function(xhr, ajaxOptions, thrownError){
                 alert(thrownError);
             }
         }); 
   });
-*/
+
 Date.prototype.getWeek = function () {
     var target  = new Date(this.valueOf());
     var dayNr   = (this.getDay() + 6) % 7;
@@ -488,20 +488,21 @@ $this->registerJsFile('https://js.pusher.com/4.3/pusher.min.js', ['depends' => [
 		</svg>
 
 		<div class ="wrapper" style = "border: 1px solid black;">
-		<div id="container">
-			<h4 id = "headerC">Última instalação <span id = "cidade"></span></h4>
-			<p ><b>ASC:
-				<span id="asc"></span>
-			</b></p>
-			<p><b>Instalador:
-				<span id="inst"></span>
-			</b></p>
-			<p "><b>Cliente:
-				<span id="cli"></span>
-			</b></p>
-		
+			<div id="container">
+				<h4 id = "headerC">Última instalação <span id = "cidade"></span></h4>
+				<p ><b>ASC:
+					<span id="asc"></span>
+				</b></p>
+				<p><b>Instalador:
+					<span id="inst"></span>
+				</b></p>
+				<p><b>Cliente:
+					<span id="cli"></span>
+				</b></p>
+			</div>
 		</div>
-		</div>
+
+		<div id = "ajax">ajax </div>
 
 	</div>
 		
