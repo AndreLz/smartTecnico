@@ -13,7 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 $script = <<< JS
 //'https://api.mlab.com/api/1/databases/tecsdb/collections/tecs?apiKey=FadNlSlxW08n39zzET_9idXHX-6AyL3w'
 //'https://pacific-forest-15813.herokuapp.com/tec2'
-
 var allData;
 		
 		//heroku
@@ -124,10 +123,10 @@ var allData;
 		   
 			txt += "<div class='coluna2' style='border: 1px solid black; '>";
 			//txt += "Data: <span id='data'>"+ dataAtualFormatada(allData[last-i].data["Sdate"]) +"</span>"
-			txt += "Data: <span id='data'>"+ dataAtualFormatada(allData[last-1].data) +"</span>"
-			txt += "<br>ASC: <span id='asc'>"+ allData[last-1].instalador_info.asc +"</span>";
-			txt += "<br>Instalador: <span id='inst'>"+ allData[last-1].instalador +"</span>";
-			txt += "<br>Cliente: <span id='cli'>"+ allData[last-1].nome +"</span></div> ";
+			txt += "Data:<span id='data'>"+ dataAtualFormatada(allData[last-1].data) +"</span>"
+			txt += "<br>ASC:<span id='asc'>"+ allData[last-1].instalador_info.asc +"</span>";
+			txt += "<br>Instalador:<span id='inst'>"+ allData[last-1].instalador +"</span>";
+			txt += "<br>Cliente:<span id='cli'>"+ allData[last-1].nome +"</span></div> ";
 			txt += "</div>"
 			$(".hist").prepend(txt);
 			if ($('.roww').length > 10) {
@@ -146,17 +145,35 @@ var allData;
 			   
 				txt += "<div class='coluna2' style='border: 1px solid black; '>";
 				//txt += "Data: <span id='data'>"+ dataAtualFormatada(allData[last-i].data["Sdate"]) +"</span>"
-				txt += "Data: <span id='data'>"+ dataAtualFormatada(allData[last-i].data) +"</span>"
-				txt += "<br>ASC: <span id='asc'>"+ allData[last-i].instalador_info.asc +"</span>";
+				txt += "Data:           <span id='data'>"+ dataAtualFormatada(allData[last-i].data) +"</span>"
+				txt += "<br>ASC:        <span id='asc'>"+ allData[last-i].instalador_info.asc +"</span>";
 				txt += "<br>Instalador: <span id='inst'>"+ allData[last-i].instalador +"</span>";
-				txt += "<br>Cliente: <span id='cli'>"+ allData[last-i].nome +"</span></div> ";
+				txt += "<br>Cliente:     <span id='cli'>"+ allData[last-i].nome +"</span></div> ";
 				txt += "</div>"
 				$(".hist").append(txt);
 				
 				
 			}
+        }
+		
+		function populateHist2() {
+			var last = allData.length;
+			var i;
 			
-            
+			var txt = "<table style='overflow-x:auto;' id='tabelaMapa'>";
+			for (i = 1; i < 12 && i < last; i++) {
+				txt += "<tr><th rowspan='4'>"+(last-i+1)+"</th>";
+				txt += "<td>Data</td>";
+				txt += "<td>"+dataAtualFormatada(allData[last-i].data)+"</td></tr>";
+				txt += "<tr><td>ASC</td>";
+				txt += "<td>"+allData[last-i].instalador_info.asc+"</td></tr>";
+				txt += "<tr><td>Responsável</td>";
+				txt += "<td>"+allData[last-i].instalador+"</td></tr>";
+				txt += "<tr><td>Cliente</td>";
+				txt += "<td style='width:100%'>"+allData[last-i].nome+"</td></tr>";
+			}
+			txt += "</table>";
+			$(".hist").html(txt);
         }
 		
 		function populateHistAll() {
@@ -165,13 +182,132 @@ var allData;
 			var txt = "<div class='container'><h2>Histórico de instalações</h2><div class='panel-group' id='accordion'>";
 			for (i = 1; i < last; i++) {
 				var collapse = "collapse"+i;
+				var accordion = "accordion"+i;
+				var clienteAccordion = "clienteAccordion"+i;
+				var tecnicoAccordion = "tecnicoAccordion"+i;
+				var clienteDados = "clienteDados"+i;
+				var tecnicoDados = "tecnicosDados"+i;
+				var passosDados = "passosDados"+i;
+				
 				txt += "<div class='panel panel-default'>";
 				txt += "<div class='panel-heading'>";
 				txt += "<h4 class='panel-title'>";
 				txt += "<a data-toggle='collapse' data-parent='#accordion' href='#"+collapse+"'>"+allData[last-i].cidade +" - "+dataAtualFormatada(allData[last-1].data)+"</a>";
 				txt += "</h4></div><div id='"+collapse+"' class='panel-collapse collapse'>";
 				txt += "<div class='panel-body'>";
-				txt += allData[last-i].instalador;
+				/*
+				txt += "<div class='dados'>";
+				
+				txt += "Modelo: "+allData[last-i].modelo;
+				
+				txt += "</div>";
+				*/
+				//txt += "<div><h2>"+allData[last-i].cidade+"</h2><ul>";
+				txt += "<div><ul>";
+				txt += "<li class='listaInfo'><p class='alignleft'>Modelo: <p class='aligncenter'>"+allData[last-i].modelo+"</p></p></li>";
+				txt += "<li class='listaInfo'><p class='alignleft'>Serial: <p class='aligncenter'>"+allData[last-i].serial+"</p></p></li>";
+				txt += "<li class='listaInfo'><p class='alignleft'>Numero: <p class='aligncenter'>"+allData[last-i].numero+"</p></p></li>";
+				
+				txt += "</ul></div>";
+				
+				 
+				var txt2 = "<div class='container-fluid'><div class='panel-group2'>";
+				txt2 += "<div class='panel panel-default'>";
+				txt2 += "<div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse'  href='#"+clienteDados+"'>Dados Cliente</a></h4></div>";
+				txt2 += "<div id='"+clienteDados+"' class='panel-collapse collapse'>";
+				txt2 += "<div class='panel-body'>";
+				
+				//txt2 += allData[last-i].nome;
+				
+				txt2 += "<table style='overflow-x:auto;' class='noback2'>";
+				txt2 += "<tr>";
+				txt2 += "<td>Cliente</td>";
+				txt2 += "<td>"+allData[last-i].nome+"</td></tr>";
+				
+				txt2 += "<tr><td>Telefone</td>";
+				txt2 += "<td>"+allData[last-i].telefone+"</td></tr>";
+				
+				txt2 += "<tr><td>CPF</td>";
+				txt2 += "<td>"+allData[last-i].cpf+"</td></tr>";
+	
+				txt2 += "<tr><td>Cidade</td>";
+				txt2 += "<td>"+allData[last-i].cidade+" - "+ allData[last-i].instalador_info.estado+"</td></tr>";
+				
+				txt2 += "<tr><td>CEP</td>";
+				txt2 += "<td style='width:100%'>"+allData[last-i].cep+"</td></tr>";
+				txt2 += "</table>";
+				
+				txt2 += "</div></div></div></div></div>";
+				
+				var txt4 = "<div class='container-fluid'><div class='panel-group2'>";
+				txt4 += "<div class='panel panel-default'>";
+				txt4 += "<div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' href='#"+tecnicoDados+"'>Dados Instalador</a></h4></div>";
+				txt4 += "<div id='"+tecnicoDados+"' class='panel-collapse collapse'>";
+				txt4 += "<div class='panel-body'>";
+				
+				txt4 += "<table style='overflow-x:auto;' class='noback2'>";
+				txt4 += "<tr>";
+				txt4 += "<td>Responsável</td>";
+				txt4 += "<td>"+allData[last-i].instalador_info.nome+"</td></tr>";
+				
+				txt4 += "<tr><td>Telefone</td>";
+				txt4 += "<td>"+allData[last-i].instalador_info.telefone+"</td></tr>";
+				
+				txt4 += "<td>ASC</td>";
+				txt4 += "<td>"+allData[last-i].instalador_info.asc+"</td></tr>";
+				
+				txt4 += "<tr><td>CPF</td>";
+				txt4 += "<td>"+allData[last-i].instalador_info.cpf+"</td></tr>";
+	
+				txt4 += "<tr><td>Cidade</td>";
+				txt4 += "<td>"+allData[last-i].instalador_info.cidade+" - "+ allData[last-i].instalador_info.estado+"</td></tr>";
+				
+				txt4 += "<tr><td>CEP</td>";
+				txt4 += "<td style='width:100%'>"+allData[last-i].cep+"</td></tr>";
+				txt4 += "</table>";
+				
+				
+				txt4 += "</div></div></div></div></div>";
+				
+				
+				
+				var txt3 = "<div class='container-fluid'><div class='panel-group2'>";
+				txt3 += "<div class='panel panel-default'>";
+				txt3 += "<div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' href='#"+passosDados+"'>Dados Técnicos</a></h4></div>";
+				txt3 += "<div id='"+passosDados+"' class='panel-collapse collapse'>";
+				txt3 += "<div class='panel-body'>";
+				//txt3 += allData[last-i].instalador;
+				
+				var j;
+				txt3 += "<div><h3>Procedimentos realizados</h3><ul>";
+				for(j = 0; j < allData[last-i].passos.length; j++){
+					
+					txt3 += "<li class='listaInfo'>"+allData[last-i].passos[j]+"</li>";
+						
+				}
+				txt3 += "</ul></div>";
+				
+				txt3 += "<div><h3>Procedimentos não realizados</h3><ul>";
+				for(j = 0; j < allData[last-i].passos_nao.length; j++){
+					
+					txt3 += "<li class='listaInfo'>"+allData[last-i].passos_nao[j]+"</li>";
+						
+				}
+				txt3 += "</ul></div>";
+				
+				if(allData[last-i].motivo != ""){
+					txt3 += "<div><h3>Comentário do responsável</h3><ul>";
+					txt3 += "<li class='listaInfo'>"+allData[last-i].motivo+"</li></ul></div>";
+				
+					
+				}
+				
+				
+				txt3 += "</div></div></div></div></div>";
+				
+
+				
+				txt += txt2+txt4+txt3;
 				txt += "</div></div></div>";
 			}
 			txt += "</div></div>";
@@ -228,8 +364,8 @@ var allData;
 
             $.ajax({
                 //url: 'https://api.mlab.com/api/1/databases/tecsdb/collections/instalacaos?apiKey=FadNlSlxW08n39zzET_9idXHX-6AyL3w',
-                //url: 'https://pacific-forest-15813.herokuapp.com/inst3',
-				url: 'http://192.168.0.11:3000/inst3',
+                url: 'https://pacific-forest-15813.herokuapp.com/inst3',
+				//url: 'http://192.168.0.11:3000/inst3',
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -257,13 +393,13 @@ var allData;
 
                     var tabela = "<table id='t01'>" + tHead + tBody + "</table>";
                     $('#tabelaInfo').html(tabela);
-					populateHist();
+					populateHist2();
 					populateHistAll();
 
 
 
 
-                   //var d = new Date(arrayItem.data["Sdate"]);
+                    //var d = new Date(arrayItem.data["Sdate"]);
                     //$('#container').text(txt);
                     //alert(d.getWeek());
                     //console.log(d.getFullYear());
@@ -398,6 +534,7 @@ var allData;
         });*/
 
 
+
     
 
 JS;
@@ -442,18 +579,38 @@ body {
 
         table {
             border-collapse: collapse;
+			
             width: 100%;
         }
 
-        th, td {
+        #t01 th, #t01 td {
             text-align: center;
             padding: 3px;
 			   //4px na lg
 //padding: 4px;
             border: 1px solid #dddddd;
+			
+        }
+		
+		.noback2{
+		border: 1px solid black;
+		}
+		.noback2 th, .noback2 td{
+		border: 1px solid black;
+		text-align: center;
+		}
+		
+		
+		#tabelaMapa th, #tabelaMapa td {
+            text-align: center;
+            padding: 3px;
+			   //4px na lg
+//padding: 4px;
+            border: 1px solid black;
+			
         }
 
-        tr:nth-child(even) {
+        #t01 tr:nth-child(even) {
             background-color: #f2f2f2;
         }
 
@@ -634,6 +791,7 @@ body {
         .coluna2 {
             height: 81px;
             width:100%;
+			border: 1px solid black;
           
         }
 
@@ -654,17 +812,68 @@ body {
         }
 		
 		.panel-group{
-		float:right;
+			float:left;
 		width: 80%;
-            height: 600px;
+            height: 700px;
             overflow: auto;
 		
 		}
 		
-		h2{
+		.panel-group2{
+			float:left;
+			width: 100%;
+		}
+		
+		h2,h3{
 		
 		text-align: center;
 		
+		}
+		
+		
+		
+		ul {
+		  list-style-type: none;
+		  margin: 0;
+		  padding: 0;
+		}
+		 
+
+		 
+		.listaInfo:last-child {
+		  border: none;
+		}
+		 
+		.listaInfo {
+		  text-decoration: none;
+		  color: #000;
+		  display: block;
+		  width: 100%;
+		  font-size: 20px;
+		  
+		 
+		  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+		  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+		  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+		  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+		  transition: font-size 0.3s ease, background-color 0.3s ease;
+		}
+		 
+		.listaInfo:hover {
+		  font-size: 30px;
+		}
+		
+		.alignleft {
+			float: left;
+			text-align:left;
+			width:33.33333%;
+			
+		}
+		.aligncenter {
+			float: left;
+			text-align:center;
+			width:66.66666%;
+		   
 		}");
 $this->registerJsFile('https://js.pusher.com/4.3/pusher.min.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
