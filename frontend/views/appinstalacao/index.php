@@ -1050,6 +1050,7 @@ $this->registerJsFile('https://js.pusher.com/4.3/pusher.min.js', ['depends' => [
 				</div>			
 	
 			<button onclick="myCreateFunction()">Create row</button>
+			<button onclick="myDeleteFunction()">Delete row</button>
 			<div class="tab-content">	
 				
 				
@@ -1699,6 +1700,12 @@ function myCreateFunction() {
 }
 
 function myDeleteFunction() {
-  document.getElementById("myTable").deleteRow(-1);
+	var ping = $('#state-am');
+	ping.siblings().removeClass('mapa-svg-estados-active');
+	ping.addClass('mapa-svg-estados-active');
+	$('.class-select').val(ping.attr('id')).trigger('change');
+	ping.appendTo(ping.parents('svg>g'));
+	
 }
+
 </script>
