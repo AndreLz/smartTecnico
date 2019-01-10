@@ -160,7 +160,7 @@ var allData;
 			
 
 			txt2 += "<tr><td>Cidade</td>";
-			txt2 += "<td>"+data.cidade+" - "+ data.instalador_info.estado+"</td></tr>";
+			txt2 += "<td>"+data.cidade+" - "+ data.estado+"</td></tr>";
 		
 			
 			txt2 += "<tr><td>CEP</td>";
@@ -255,7 +255,7 @@ var allData;
 			
 			for (i = 1; i < 12 && i < last; i++) {
 				var txt = "<div class='roww'>";
-				txt += "<div class='coluna'>" + (last-i+1)+ "</div>";
+				txt += "<div class='coluna'>" + (last-i)+ "</div>";
 			   
 				txt += "<div class='coluna2' style='border: 1px solid black; '>";
 				//txt += "Data: <span id='data'>"+ dataAtualFormatada(allData[last-i].data["Sdate"]) +"</span>"
@@ -306,7 +306,7 @@ var allData;
 				txt += "<div class='panel panel-default'>";
 				txt += "<div class='panel-heading'>";
 				txt += "<h4 class='panel-title'>";
-				txt += "<a data-toggle='collapse' data-parent='#accordion' href='#"+collapse+"'>"+allData[last-i].cidade +" - "+dataAtualFormatada(allData[last-1].data)+"</a>";
+				txt += "<a data-toggle='collapse' data-parent='#accordion' href='#"+collapse+"'>"+allData[last-i].cidade +" - "+dataAtualFormatada(allData[last-i].data)+"</a>";
 				txt += "</h4></div><div id='"+collapse+"' class='panel-collapse collapse'>";
 				txt += "<div class='panel-body'>";
 				
@@ -339,7 +339,7 @@ var allData;
 				txt2 += "<td>"+allData[last-i].cpf+"</td></tr>";
 	
 				txt2 += "<tr><td>Cidade</td>";
-				txt2 += "<td>"+allData[last-i].cidade+" - "+ allData[last-i].instalador_info.estado+"</td></tr>";
+				txt2 += "<td>"+allData[last-i].cidade+" - "+ allData[last-i].estado+"</td></tr>";
 				
 				txt2 += "<tr><td>CEP</td>";
 				txt2 += "<td style='width:100%'>"+allData[last-i].cep+"</td></tr>";
