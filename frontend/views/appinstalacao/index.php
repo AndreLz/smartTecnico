@@ -16,19 +16,19 @@ $script = <<< JS
 var allData;
 		
 		//heroku
-		/*
+		
 		var pusher = new Pusher('b193b50aea652a0401ad', {
 			  cluster: 'mt1',
 			  forceTLS: true
 			});
-*/
+
 		//Teste local
-		var pusher = new Pusher('93a1a948489cdb5415f4', {
+/*		var pusher = new Pusher('93a1a948489cdb5415f4', {
 			  cluster: 'us2',
 			  forceTLS: true
 			});
 		
-
+*/
 
         var channel = pusher.subscribe('my-channel');
         channel.bind('my-event', function (data) {
@@ -77,21 +77,10 @@ var allData;
 				addHist(data);
 
                 
-                //document.getElementById("cidade").innerHTML = '- ' + data.cidade;
-                //document.getElementById("inst").innerHTML = data.instalador;
-                //document.getElementById("cli").innerHTML = data.nome;
-                ping.removeClass('mapa-svg-estados-active');
-			
-				ping.siblings().removeClass('mapa-svg-estados-active');
-				
-                ping.addClass('mapa-svg-estados-active');
-				console.log(ping)
-				console.log(ping.attr('id'))
+                ping.siblings().removeClass('mapa-svg-estados-active');
+				ping.addClass('mapa-svg-estados-active');
 				$('.class-select').val(ping.attr('id')).trigger('change');
-
-                //ping.val($('#state-am').attr('id')).trigger('change');
-                //$('#tabelaInfo').text(inst);
-                //moveUpestado(ping);
+				ping.appendTo(ping.parents('svg>g'));
                 reDraw();
 
             }
@@ -116,23 +105,148 @@ var allData;
 			return dia+"/"+mes+"/"+ano + " - "+h + ":" + m + ":" + s;
 		}
 		
+		var num = 1;
 		function addHist(data){
 			var last = allData.length;
-			var txt = "<div class='roww'>";
-			txt += "<div class='coluna'>" + (last) + "</div>";
-		   
-			txt += "<div class='coluna2' style='border: 1px solid black; '>";
-			//txt += "Data: <span id='data'>"+ dataAtualFormatada(allData[last-i].data["Sdate"]) +"</span>"
-			txt += "Data:<span id='data'>"+ dataAtualFormatada(allData[last-1].data) +"</span>"
-			txt += "<br>ASC:<span id='asc'>"+ allData[last-1].instalador_info.asc +"</span>";
-			txt += "<br>Instalador:<span id='inst'>"+ allData[last-1].instalador +"</span>";
-			txt += "<br>Cliente:<span id='cli'>"+ allData[last-1].nome +"</span></div> ";
-			txt += "</div>"
-			$(".hist").prepend(txt);
-			if ($('.roww').length > 10) {
-				$('.hist').children().last().remove();
+			var txt = "<tr><th rowspan='4'>"+last+"</th>";
+			txt += "<td>Data</td>";
+			txt += "<td>"+dataAtualFormatada(data.data)+"</td></tr>";
+			txt += "<tr><td>ASC</td>";
+			txt += "<td>"+data.instalador_info.asc+"</td></tr>";
+			txt += "<tr><td>Responsável</td>";
+			txt += "<td>"+data.instalador+"</td></tr>";
+			txt += "<tr><td>Cliente</td>";
+			txt += "<td style='width:100%'>"+data.nome+"</td></tr>";
+			$("#tabelaMapa").prepend(txt);
+			$("#tabelaMapa tr:last").remove();
+			$("#tabelaMapa tr:last").remove();
+			$("#tabelaMapa tr:last").remove();
+			$("#tabelaMapa tr:last").remove();
+			
+			num++;
+			var collapse = "collapse"+num+"a";
+			var accordion = "accordion"+num+"a";
+			var clienteAccordion = "clienteAccordion"+num+"a";
+			var tecnicoAccordion = "tecnicoAccordion"+num+"a";
+			var clienteDados = "clienteDados"+num+"a";
+			var tecnicoDados = "tecnicosDados"+num+"a";
+			var passosDados = "passosDados"+num+"a";
+			
+			txt = "<div class='panel panel-default'>";
+			txt += "<div class='panel-heading'>";
+			txt += "<h4 class='panel-title'>";
+			txt += "<a data-toggle='collapse' data-parent='#accordion' href='#"+collapse+"'>"+data.cidade +" - "+dataAtualFormatada(data.data)+"</a>";
+			txt += "</h4></div><div id='"+collapse+"' class='panel-collapse collapse'>";
+			txt += "<div class='panel-body'>";
+			 
+			var txt2 = "<div class='container-fluid'><div class='panel-group2'>";
+			txt2 += "<div class='panel panel-default'>";
+			txt2 += "<div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse'  href='#"+clienteDados+"'>Dados Cliente</a></h4></div>";
+			txt2 += "<div id='"+clienteDados+"' class='panel-collapse collapse'>";
+			txt2 += "<div class='panel-body'>";
+			
+			txt2 += "<table style='overflow-x:auto;' class='noback2'>";
+			txt2 += "<tr>";
+			txt2 += "<td>Cliente</td>";
+			txt2 += "<td>"+data.nome+"</td></tr>";
+			
+			
+			txt2 += "<tr><td>Telefone</td>";
+			txt2 += "<td>"+data.telefone+"</td></tr>";
+			
+			
+			txt2 += "<tr><td>CPF</td>";
+			txt2 += "<td>"+data.cpf+"</td></tr>";
+			
+
+			txt2 += "<tr><td>Cidade</td>";
+			txt2 += "<td>"+data.cidade+" - "+ data.instalador_info.estado+"</td></tr>";
+		
+			
+			txt2 += "<tr><td>CEP</td>";
+			txt2 += "<td style='width:100%'>"+data.cep+"</td></tr>";
+			txt2 += "</table>";
+			
+			txt2 += "</div></div></div></div></div>";
+			
+			var txt4 = "<div class='container-fluid'><div class='panel-group2'>";
+			txt4 += "<div class='panel panel-default'>";
+			txt4 += "<div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' href='#"+tecnicoDados+"'>Dados Instalador</a></h4></div>";
+			txt4 += "<div id='"+tecnicoDados+"' class='panel-collapse collapse'>";
+			txt4 += "<div class='panel-body'>";
+			
+			txt4 += "<table style='overflow-x:auto;' class='noback2'>";
+			txt4 += "<tr>";
+			txt4 += "<td>Responsável</td>";
+			txt4 += "<td>"+data.instalador_info.nome+"</td></tr>";
+			
+			txt4 += "<tr><td>Telefone</td>";
+			txt4 += "<td>"+data.instalador_info.telefone+"</td></tr>";
+			
+			txt4 += "<td>ASC</td>";
+			txt4 += "<td>"+data.instalador_info.asc+"</td></tr>";
+			
+			txt4 += "<tr><td>CPF</td>";
+			txt4 += "<td>"+data.instalador_info.cpf+"</td></tr>";
+			
+			txt4 += "<tr><td>Cidade</td>";
+			txt4 += "<td>"+data.instalador_info.cidade+" - "+ data.instalador_info.estado+"</td></tr>";
+			
+			txt4 += "<tr><td>CEP</td>";
+			txt4 += "<td style='width:100%'>"+data.cep+"</td></tr>";
+			txt4 += "</table>";
+			txt4 += "</div></div></div></div></div>";
+			
+			var txt3 = "<div class='container-fluid'><div class='panel-group2'>";
+			txt3 += "<div class='panel panel-default'>";
+			txt3 += "<div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' href='#"+passosDados+"'>Dados Técnicos</a></h4></div>";
+			txt3 += "<div id='"+passosDados+"' class='panel-collapse collapse'>";
+			txt3 += "<div class='panel-body'>";
+			
+			txt3 += "<table style='overflow-x:auto;' class='modelo'>";
+			txt3 += "<tr>";
+			txt3 += "<td>Modelo</td>";
+			txt3 += "<td>"+data.modelo+"</td></tr>";
+			
+			txt3 += "<tr><td>Serial</td>";
+			txt3 += "<td>"+data.serial+"</td></tr>";
+			
+			txt3 += "<td>Número</td>";
+			txt3 += "<td style='width:100%'>"+data.numero+"</td></tr>";
+			
+			txt3 += "</table>";
+			
+			
+			var j;
+			
+			if(data.passos.length != 0){
+				txt3 += "<div class='made'><h3>Procedimentos realizados</h3><ul>";
+				for(j = 0; j < data.passos.length; j++){
+					txt3 += "<li class='listaInfo'>"+data.passos[j]+"</li>";
+				}
+				txt3 += "</ul></div>";
 			}
+			if(data.passos_nao.length != 0){
+				txt3 += "<div class='notMade'><h3>Procedimentos não realizados</h3><ul>";
+				for(j = 0; j < data.passos_nao.length; j++){
+					txt3 += "<li class='listaInfo'>"+data.passos_nao[j]+"</li>";		
+				}
+				txt3 += "</ul></div>";
+			}			
+			if(data.motivo != ""){
+				txt3 += "<div class='motivo'><h3>Comentário do responsável</h3><ul>";
+				txt3 += "<li class='listaInfo'>"+data.motivo+"</li></ul></div>";
+			}
+			
+			
+			txt3 += "</div></div></div></div></div>";
+			txt += txt2+txt4+txt3;
+			txt += "</div></div></div>";
+			
+			$("#accordion").prepend(txt);
 		}
+		
+		
 		
 		function populateHist() {
 			var last = allData.length;
@@ -720,7 +834,7 @@ $this->registerCss("
 
         .mapa-svg-estados-active {
             cursor: pointer;
-			animation: blink 5000ms 1;
+			animation: blink 5000ms 4;
             //stroke: var(--default-blue-stroke);
             //fill: var(--default-grey-black-fill);
             stroke-dashoffset: 0%;
@@ -1049,8 +1163,7 @@ $this->registerJsFile('https://js.pusher.com/4.3/pusher.min.js', ['depends' => [
 
 				</div>			
 	
-			<button onclick="myCreateFunction()">Create row</button>
-			<button onclick="myDeleteFunction()">Delete row</button>
+		
 			<div class="tab-content">	
 				
 				
@@ -1531,181 +1644,3 @@ $this->registerJsFile('https://js.pusher.com/4.3/pusher.min.js', ['depends' => [
 	
 		</div>
 </div>
-
-<script>
-var num = 1;
-function myCreateFunction() {
-  
-  var txt = "<tr><th rowspan='4'>2</th>";
-	txt += "<td>Data</td>";
-	txt += "<td>Andre</td></tr>";
-	txt += "<tr><td>ASC</td>";
-	txt += "<td>Andre</td></tr>";
-	txt += "<tr><td>Responsável</td>";
-	txt += "<td>Andre</td></tr>";
-	txt += "<tr><td>Cliente</td>";
-	txt += "<td style='width:100%'>Andre</td></tr>";
-	$("#tabelaMapa").prepend(txt);
-	$("#tabelaMapa tr:last").remove();
-	$("#tabelaMapa tr:last").remove();
-	$("#tabelaMapa tr:last").remove();
-	$("#tabelaMapa tr:last").remove();
-	num++;
-	
-	var collapse = "collapse"+num+"a";
-	var accordion = "accordion"+num+"a";
-	var clienteAccordion = "clienteAccordion"+num+"a";
-	var tecnicoAccordion = "tecnicoAccordion"+num+"a";
-	var clienteDados = "clienteDados"+num+"a";
-	var tecnicoDados = "tecnicosDados"+num+"a";
-	var passosDados = "passosDados"+num+"a";
-	
-	txt = "<div class='panel panel-default'>";
-	txt += "<div class='panel-heading'>";
-	txt += "<h4 class='panel-title'>";
-	//txt += "<a data-toggle='collapse' data-parent='#accordion' href='#"+collapse+"'>"+allData[last-i].cidade +" - "+dataAtualFormatada(allData[last-1].data)+"</a>";
-	txt += "<a data-toggle='collapse' data-parent='#accordion' href='#"+collapse+"'>Append</a>";
-	txt += "</h4></div><div id='"+collapse+"' class='panel-collapse collapse'>";
-	txt += "<div class='panel-body'>";
-	 
-	var txt2 = "<div class='container-fluid'><div class='panel-group2'>";
-	txt2 += "<div class='panel panel-default'>";
-	txt2 += "<div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse'  href='#"+clienteDados+"'>Dados Cliente</a></h4></div>";
-	txt2 += "<div id='"+clienteDados+"' class='panel-collapse collapse'>";
-	txt2 += "<div class='panel-body'>";
-	
-	//txt2 += allData[last-i].nome;
-	
-	txt2 += "<table style='overflow-x:auto;' class='noback2'>";
-	txt2 += "<tr>";
-	txt2 += "<td>Cliente</td>";
-	//txt2 += "<td>"+allData[last-i].nome+"</td></tr>";
-	txt2 += "<td>AS</td></tr>";
-	
-	txt2 += "<tr><td>Telefone</td>";
-	//txt2 += "<td>"+allData[last-i].telefone+"</td></tr>";
-	txt2 += "<td>TS</td></tr>";
-	
-	txt2 += "<tr><td>CPF</td>";
-	//txt2 += "<td>"+allData[last-i].cpf+"</td></tr>";
-	txt2 += "<td>SD</td></tr>";
-
-	txt2 += "<tr><td>Cidade</td>";
-	//txt2 += "<td>"+allData[last-i].cidade+" - "+ allData[last-i].instalador_info.estado+"</td></tr>";
-	txt2 += "<td>PS</td></tr>";
-	
-	txt2 += "<tr><td>CEP</td>";
-	//txt2 += "<td style='width:100%'>"+allData[last-i].cep+"</td></tr>";
-	txt2 += "<td style='width:100%'>HS</td></tr>";
-	txt2 += "</table>";
-	
-	txt2 += "</div></div></div></div></div>";
-	
-	var txt4 = "<div class='container-fluid'><div class='panel-group2'>";
-	txt4 += "<div class='panel panel-default'>";
-	txt4 += "<div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' href='#"+tecnicoDados+"'>Dados Instalador</a></h4></div>";
-	txt4 += "<div id='"+tecnicoDados+"' class='panel-collapse collapse'>";
-	txt4 += "<div class='panel-body'>";
-	
-	txt4 += "<table style='overflow-x:auto;' class='noback2'>";
-	txt4 += "<tr>";
-	txt4 += "<td>Responsável</td>";
-	//txt4 += "<td>"+allData[last-i].instalador_info.nome+"</td></tr>";
-	txt4 += "<td>FS</td></tr>";
-	
-	txt4 += "<tr><td>Telefone</td>";
-	//txt4 += "<td>"+allData[last-i].instalador_info.telefone+"</td></tr>";
-	txt4 += "<td>TS</td></tr>";
-	
-	txt4 += "<td>ASC</td>";
-	//txt4 += "<td>"+allData[last-i].instalador_info.asc+"</td></tr>";
-	txt4 += "<td>AS</td></tr>";
-	
-	txt4 += "<tr><td>CPF</td>";
-	//txt4 += "<td>"+allData[last-i].instalador_info.cpf+"</td></tr>";
-	txt4 += "<td>CS</td></tr>";
-
-	txt4 += "<tr><td>Cidade</td>";
-	//txt4 += "<td>"+allData[last-i].instalador_info.cidade+" - "+ allData[last-i].instalador_info.estado+"</td></tr>";
-	txt4 += "<td>IS</td></tr>";
-	
-	txt4 += "<tr><td>CEP</td>";
-	//txt4 += "<td style='width:100%'>"+allData[last-i].cep+"</td></tr>";
-	txt4 += "<td style='width:100%'>ES</td></tr>";
-	txt4 += "</table>";
-	
-	
-	txt4 += "</div></div></div></div></div>";
-	
-	
-	
-	var txt3 = "<div class='container-fluid'><div class='panel-group2'>";
-	txt3 += "<div class='panel panel-default'>";
-	txt3 += "<div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' href='#"+passosDados+"'>Dados Técnicos</a></h4></div>";
-	txt3 += "<div id='"+passosDados+"' class='panel-collapse collapse'>";
-	txt3 += "<div class='panel-body'>";
-	
-	
-	txt3 += "<table style='overflow-x:auto;' class='modelo'>";
-	txt3 += "<tr>";
-	txt3 += "<td>Modelo</td>";
-	//txt3 += "<td>"+allData[last-i].modelo+"</td></tr>";
-	txt3 += "<td>MS</td></tr>";
-	
-	txt3 += "<tr><td>Serial</td>";
-	//txt3 += "<td>"+allData[last-i].serial+"</td></tr>";
-	txt3 += "<td>SS</td></tr>";
-	
-	txt3 += "<td>Número</td>";
-	//txt3 += "<td style='width:100%'>"+allData[last-i].modelo+"</td></tr>";
-	txt3 += "<td style='width:100%'>MS</td></tr>";
-
-	txt3 += "</table>";
-	
-	
-	var j;
-	txt3 += "<div class='made'><h3>Procedimentos realizados</h3><ul>";
-	/*
-	for(j = 0; j < allData[last-i].passos.length; j++){
-		txt3 += "<li class='listaInfo'>"+allData[last-i].passos[j]+"</li>";
-	}*/
-	for(j = 0; j < 2; j++){
-		txt3 += "<li class='listaInfo'>OS</li>";
-	}
-	txt3 += "</ul></div>";
-	
-	txt3 += "<div class='notMade'><h3>Procedimentos não realizados</h3><ul>";
-	/*
-	for(j = 0; j < allData[last-i].passos_nao.length; j++){
-		txt3 += "<li class='listaInfo'>"+allData[last-i].passos_nao[j]+"</li>";		
-	}*/
-	for(j = 0; j < 2; j++){
-		txt3 += "<li class='listaInfo'>NS</li>";		
-	}
-	txt3 += "</ul></div>";
-	/*
-	if(allData[last-i].motivo != ""){
-		txt3 += "<div class='motivo'><h3>Comentário do responsável</h3><ul>";
-		txt3 += "<li class='listaInfo'>"+allData[last-i].motivo+"</li></ul></div>";
-	}*/
-	txt3 += "<div class='motivo'><h3>Comentário do responsável</h3><ul>";
-	txt3 += "<li class='listaInfo'>CS</li></ul></div>";
-	
-	txt3 += "</div></div></div></div></div>";
-	txt += txt2+txt4+txt3;
-	txt += "</div></div></div>";
-	
-	$("#accordion").prepend(txt);
-	
-}
-
-function myDeleteFunction() {
-	var ping = $('#state-am');
-	ping.siblings().removeClass('mapa-svg-estados-active');
-	ping.addClass('mapa-svg-estados-active');
-	$('.class-select').val(ping.attr('id')).trigger('change');
-	ping.appendTo(ping.parents('svg>g'));
-	
-}
-
-</script>
