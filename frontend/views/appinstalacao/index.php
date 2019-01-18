@@ -11,6 +11,8 @@ $this->title = 'Instalação';
 $this->params['breadcrumbs'][] = $this->title;
 
 $script = <<< JS
+//https://codepen.io/SitePoint/pen/WprNwa
+//Math.ceil(505/20)
 //'https://api.mlab.com/api/1/databases/tecsdb/collections/tecs?apiKey=FadNlSlxW08n39zzET_9idXHX-6AyL3w'
 //'https://pacific-forest-15813.herokuapp.com/tec2'
 var allData;
@@ -135,7 +137,7 @@ var allData;
 			txt = "<div class='panel panel-default'>";
 			txt += "<div class='panel-heading'>";
 			txt += "<h4 class='panel-title'>";
-			txt += "<a data-toggle='collapse' data-parent='#accordion' href='#"+collapse+"'>"+data.cidade +" - "+dataAtualFormatada(data.data)+"</a>";
+			txt += "<a data-toggle='collapse' data-parent='#accordion' href='#"+collapse+"'>"+data.estado+" - "+data.cidade +" - "+dataAtualFormatada(data.data)+"</a>";
 			txt += "</h4></div><div id='"+collapse+"' class='panel-collapse collapse'>";
 			txt += "<div class='panel-body'>";
 			 
@@ -295,6 +297,7 @@ var allData;
 			var i;
 			var txt = "<div class='container-fluid'><h2>Histórico de instalações</h2><div class='panel-group' id='accordion'>";
 			for (i = 1; i < last; i++) {
+				if(allData[last-i] != null && allData[last-i].instalador_info != null){
 				var collapse = "collapse"+i;
 				var accordion = "accordion"+i;
 				var clienteAccordion = "clienteAccordion"+i;
@@ -306,7 +309,7 @@ var allData;
 				txt += "<div class='panel panel-default'>";
 				txt += "<div class='panel-heading'>";
 				txt += "<h4 class='panel-title'>";
-				txt += "<a data-toggle='collapse' data-parent='#accordion' href='#"+collapse+"'>"+allData[last-i].cidade +" - "+dataAtualFormatada(allData[last-i].data)+"</a>";
+				txt += "<a data-toggle='collapse' data-parent='#accordion' href='#"+collapse+"'>"+allData[last-i].estado+" - "+allData[last-i].cidade +" - "+dataAtualFormatada(allData[last-i].data)+"</a>";
 				txt += "</h4></div><div id='"+collapse+"' class='panel-collapse collapse'>";
 				txt += "<div class='panel-body'>";
 				
@@ -431,7 +434,7 @@ var allData;
 				
 				txt += txt2+txt4+txt3;
 				txt += "</div></div></div>";
-			}
+			}}
 			txt += "</div></div>";
 			$('#tabHistory').html(txt);
             
