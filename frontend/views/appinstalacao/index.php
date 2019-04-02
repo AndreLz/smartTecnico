@@ -294,7 +294,7 @@ var allData;
 		}
 	
 		
-		function populateHist2() {
+		function populateHist() {
 			var last = allData.length;
 			var i;
 			
@@ -318,7 +318,7 @@ var allData;
 			var last = allData.length;
 			var i;
 			var txt = "<div class='container-fluid'><h2>Histórico de instalações</h2><div class='panel-group' id='accordion'>";
-			for (i = 1; i <= last; i++) {
+			for (i = 0; i <= last; i++) {
 				if(allData[last-i] != null && allData[last-i].instalador_info != null){
 				var collapse = "collapse"+i;
 				var accordion = "accordion"+i;
@@ -376,8 +376,7 @@ var allData;
 	
 				txt += "</table>";
 				
-				
-				 
+
 				var txt2 = "<div class='container-fluid'><div class='panel-group2'>";
 				txt2 += "<div class='panel panel-default'>";
 				txt2 += "<div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse'  href='#"+clienteDados+"'>Dados Cliente</a></h4></div>";
@@ -479,15 +478,11 @@ var allData;
 				if(allData[last-i].motivo != ""){
 					txt3 += "<div class='motivo'><h3>Comentário do responsável</h3><ul>";
 					txt3 += "<li class='listaInfo'>"+allData[last-i].motivo+"</li></ul></div>";
-				
-					
+			
 				}
-				
-				
+					
 				txt3 += "</div></div></div></div></div>";
-				
-
-				
+		
 				txt += txt2+txt4+txt3;
 				txt += "</div></div></div>";
 			}}
@@ -524,9 +519,7 @@ var allData;
             });
         })(jQuery);
 
-        //url: 'https://api.mlab.com/api/1/databases/tecsdb/collections/instalacaos?apiKey=FadNlSlxW08n39zzET_9idXHX-6AyL3w',
-        //url: 'https://pacific-forest-15813.herokuapp.com/inst',
-		
+    	
 		var num;        
         var months = ["JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"];
         var ests = ["AC","AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"];
@@ -544,7 +537,7 @@ var allData;
             
 
             $.ajax({
-                //url: 'https://api.mlab.com/api/1/databases/tecsdb/collections/instalacaos?apiKey=FadNlSlxW08n39zzET_9idXHX-6AyL3w',
+      
                 url: 'https://pacific-forest-15813.herokuapp.com/inst3',
 				//url: 'http://192.168.0.11:3000/inst3',
                 type: 'GET',
@@ -558,7 +551,7 @@ var allData;
 
                     ests.forEach(function (item) {
                         arrayUnsort.push(makeLine(anoData, item));
-                       
+               
                     });
                    
                     var arraySort = arrayUnsort.sort(function (a, b) {
@@ -571,7 +564,7 @@ var allData;
                     tBody += "</tbody>";
                     var tabela = "<table id='t01'>" + tHead + tBody + "</table>";
                     $('#tabelaInfo').html(tabela);
-					populateHist2();
+					populateHist();
 					populateHistAll();
                 },
                 error: function (xhr, ajaxOptions, throwwnError) {
@@ -621,20 +614,7 @@ var allData;
             for (i = 0; i < arrEst.length; i++) {
                 stars += arrEst[i].estrela;
             }
-          /*
-            var Jan = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 0;});
-            var Fev = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 1;});
-            var Mar = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 2;});
-            var Abr = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 3;});
-            var Mai = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 4;});
-            var Jun = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 5;});
-            var Jul = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 6;});
-            var Ago = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 7;});
-            var Set = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 8;});
-            var Out = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 9;});
-            var Nov = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 10;});
-            var Dez = arrEst.filter(function (item) { var d = new Date(item.data["Sdate"]); return d.getMonth() == 11; });
-			*/
+     
 			var Jan = arrEst.filter(function (item) {var d = new Date(item.data);return d.getMonth() == 0;});
             var Fev = arrEst.filter(function (item) {var d = new Date(item.data);return d.getMonth() == 1;});
             var Mar = arrEst.filter(function (item) {var d = new Date(item.data);return d.getMonth() == 2;});
@@ -694,24 +674,7 @@ var allData;
         }
         
         
-        /*var filtered = arr.filter(function (item) {
-            return item.estado == "AR";
-        });*/
-		
-		/*
-		function deleteRow() {
-		  document.getElementById("myTable").deleteRow(-1);
-		  document.getElementById("myTable").deleteRow(-1);
-		  document.getElementById("myTable").deleteRow(-1);
-		  document.getElementById("myTable").deleteRow(-1);
-		}
-		
-		
-		*/
-
-
-
-    
+         
 
 JS;
 $position = \yii\web\View::POS_READY;
