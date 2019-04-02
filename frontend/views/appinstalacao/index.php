@@ -120,10 +120,12 @@ var allData;
 			txt += "<tr><td>Cliente</td>";
 			txt += "<td style='width:100%'>"+data.nome+"</td></tr>";
 			$("#tabelaMapa").prepend(txt);
-			$("#tabelaMapa tr:last").remove();
-			$("#tabelaMapa tr:last").remove();
-			$("#tabelaMapa tr:last").remove();
-			$("#tabelaMapa tr:last").remove();
+			if(last > 10){
+				$("#tabelaMapa tr:last").remove();
+				$("#tabelaMapa tr:last").remove();
+				$("#tabelaMapa tr:last").remove();
+				$("#tabelaMapa tr:last").remove();
+			}
 			
 			num++;
 			var collapse = "collapse"+num+"a";
@@ -137,9 +139,50 @@ var allData;
 			txt = "<div class='panel panel-default'>";
 			txt += "<div class='panel-heading'>";
 			txt += "<h4 class='panel-title'>";
-			txt += "<a data-toggle='collapse' data-parent='#accordion' href='#"+collapse+"'>"+data.estado+" - "+data.cidade +" - "+dataAtualFormatada(data.data)+"</a>";
+			txt += "<a data-toggle='collapse' data-parent='#accordion' href='#"+collapse+"'>"+dataAtualFormatada(data.data)+" - "+data.estado +" - "+data.modelo+"</a>";
+			//txt += "<a data-toggle='collapse' data-parent='#accordion' href='#"+collapse+"'>"+dataAtualFormatada(data.data)+" - "+data.estado +" - "+data.cidade +" - "+data.modelo+"</a>";
 			txt += "</h4></div><div id='"+collapse+"' class='panel-collapse collapse'>";
 			txt += "<div class='panel-body'>";
+			
+			txt += "<table style='overflow-x:auto;' class='modelo'>";
+				
+			txt += "<tr><td>Responsável</td>";
+			txt += "<td>"+data.instalador_info.nome+"</td></tr>";
+			
+			txt += "<tr><td>Cliente</td>";
+			txt += "<td>"+data.nome+"</td></tr>";
+			
+			
+			/*
+			txt += "<tr><td>Modelo</td>";
+			txt += "<td>"+data.modelo+"</td></tr>";
+			txt += "<tr><td>Serial</td>";
+			txt += "<td>"+data.serial+"</td></tr>";
+			txt += "<td>Número</td>";
+			txt += "<td style='width:100%'>"+data.numero+"</td></tr>";*/
+			
+			txt += "<td>Feedback</td>";
+			txt += "<td style='width:100%'>"+data.comentario+"</td></tr>";
+			
+			var j = 0;
+			
+			txt += "<td>Estrelas</td>";
+			txt += "<td style='width:100%'>";
+			while(j < data.estrela){
+				txt += "<span class='fa fa-star checked'></span>";
+				j++;
+			}
+			while(j < 5){
+				txt += "<span class='fa fa-star'></span>";
+				j++;
+			}
+			
+			txt += "</td></tr>";
+			
+
+			txt += "</table>";
+			
+			
 			 
 			var txt2 = "<div class='container-fluid'><div class='panel-group2'>";
 			txt2 += "<div class='panel panel-default'>";
@@ -148,23 +191,20 @@ var allData;
 			txt2 += "<div class='panel-body'>";
 			
 			txt2 += "<table style='overflow-x:auto;' class='noback2'>";
-			txt2 += "<tr>";
-			txt2 += "<td>Cliente</td>";
+		
+		/*	txt2 += "<tr><td>Cliente</td>";
 			txt2 += "<td>"+data.nome+"</td></tr>";
-			
+			*/
 			
 			txt2 += "<tr><td>Telefone</td>";
 			txt2 += "<td>"+data.telefone+"</td></tr>";
 			
+			txt2 += "<tr><td>Cidade</td>";
+			txt2 += "<td>"+data.cidade+" - "+ data.estado+"</td></tr>";
 			
 			txt2 += "<tr><td>CPF</td>";
 			txt2 += "<td>"+data.cpf+"</td></tr>";
-			
-
-			txt2 += "<tr><td>Cidade</td>";
-			txt2 += "<td>"+data.cidade+" - "+ data.estado+"</td></tr>";
 		
-			
 			txt2 += "<tr><td>CEP</td>";
 			txt2 += "<td style='width:100%'>"+data.cep+"</td></tr>";
 			txt2 += "</table>";
@@ -178,9 +218,9 @@ var allData;
 			txt4 += "<div class='panel-body'>";
 			
 			txt4 += "<table style='overflow-x:auto;' class='noback2'>";
-			txt4 += "<tr>";
-			txt4 += "<td>Responsável</td>";
-			txt4 += "<td>"+data.instalador_info.nome+"</td></tr>";
+			/*
+			txt4 += "<tr><td>Responsável</td>";
+			txt4 += "<td>"+data.instalador_info.nome+"</td></tr>";*/
 			
 			txt4 += "<tr><td>Telefone</td>";
 			txt4 += "<td>"+data.instalador_info.telefone+"</td></tr>";
@@ -191,13 +231,14 @@ var allData;
 			txt4 += "<tr><td>CPF</td>";
 			txt4 += "<td>"+data.instalador_info.cpf+"</td></tr>";
 			
-			txt4 += "<tr><td>Cidade</td>";
-			txt4 += "<td>"+data.instalador_info.cidade+" - "+ data.instalador_info.estado+"</td></tr>";
+			/*txt4 += "<tr><td>Cidade</td>";
+			txt4 += "<td>"+data.instalador_info.cidade+" - "+ data.instalador_info.estado+"</td></tr>";*/
 			
 			txt4 += "<tr><td>CEP</td>";
 			txt4 += "<td style='width:100%'>"+data.cep+"</td></tr>";
 			txt4 += "</table>";
 			txt4 += "</div></div></div></div></div>";
+			
 			
 			var txt3 = "<div class='container-fluid'><div class='panel-group2'>";
 			txt3 += "<div class='panel panel-default'>";
@@ -205,39 +246,43 @@ var allData;
 			txt3 += "<div id='"+passosDados+"' class='panel-collapse collapse'>";
 			txt3 += "<div class='panel-body'>";
 			
+			
 			txt3 += "<table style='overflow-x:auto;' class='modelo'>";
 			txt3 += "<tr>";
 			txt3 += "<td>Modelo</td>";
 			txt3 += "<td>"+data.modelo+"</td></tr>";
 			
 			txt3 += "<tr><td>Serial</td>";
-			txt3 += "<td>"+data.serial+"</td></tr>";
+			txt3 += "<td style='width:100%'>"+data.serial+"</td></tr>";
 			
-			txt3 += "<td>Número</td>";
-			txt3 += "<td style='width:100%'>"+data.numero+"</td></tr>";
-			
+		/*	txt3 += "<td>Número</td>";
+			txt3 += "<td style='width:100%'>"+data.numero+"</td></tr>";*/
+
 			txt3 += "</table>";
 			
 			
 			var j;
-			
-			if(data.passos.length != 0){
-				txt3 += "<div class='made'><h3>Procedimentos realizados</h3><ul>";
-				for(j = 0; j < data.passos.length; j++){
-					txt3 += "<li class='listaInfo'>"+data.passos[j]+"</li>";
-				}
-				txt3 += "</ul></div>";
+			txt3 += "<div class='made'><h3>Procedimentos realizados</h3><ul class='a'>";
+			for(j = 0; j < data.passos.length; j++){
+				
+				txt3 += "<li>"+data.passos[j]+"</li>";
+					
 			}
-			if(data.passos_nao.length != 0){
-				txt3 += "<div class='notMade'><h3>Procedimentos não realizados</h3><ul>";
-				for(j = 0; j < data.passos_nao.length; j++){
-					txt3 += "<li class='listaInfo'>"+data.passos_nao[j]+"</li>";		
-				}
-				txt3 += "</ul></div>";
-			}			
+			txt3 += "</ul></div>";
+			
+			txt3 += "<div class='notMade'><h3>Procedimentos não realizados</h3><ul class='a'>";
+			for(j = 0; j < data.passos_nao.length; j++){
+				
+				txt3 += "<li>"+data.passos_nao[j]+"</li>";
+					
+			}
+			txt3 += "</ul></div>";
+			
 			if(data.motivo != ""){
 				txt3 += "<div class='motivo'><h3>Comentário do responsável</h3><ul>";
 				txt3 += "<li class='listaInfo'>"+data.motivo+"</li></ul></div>";
+			
+				
 			}
 			
 			
@@ -247,37 +292,14 @@ var allData;
 			
 			$("#accordion").prepend(txt);
 		}
-		
-		
+	
 		
 		function populateHist() {
 			var last = allData.length;
 			var i;
 			
-			
-			for (i = 1; i < 12 && i < last; i++) {
-				var txt = "<div class='roww'>";
-				txt += "<div class='coluna'>" + (last-i)+ "</div>";
-			   
-				txt += "<div class='coluna2' style='border: 1px solid black; '>";
-				//txt += "Data: <span id='data'>"+ dataAtualFormatada(allData[last-i].data["Sdate"]) +"</span>"
-				txt += "Data:           <span id='data'>"+ dataAtualFormatada(allData[last-i].data) +"</span>"
-				txt += "<br>ASC:        <span id='asc'>"+ allData[last-i].instalador_info.asc +"</span>";
-				txt += "<br>Instalador: <span id='inst'>"+ allData[last-i].instalador +"</span>";
-				txt += "<br>Cliente:     <span id='cli'>"+ allData[last-i].nome +"</span></div> ";
-				txt += "</div>"
-				$(".hist").append(txt);
-				
-				
-			}
-        }
-		
-		function populateHist2() {
-			var last = allData.length;
-			var i;
-			
 			var txt = "<table style='overflow-x:auto;' id='tabelaMapa'>";
-			for (i = 1; i < 12 && i < last; i++) {
+			for (i = 1; i < 12 && i <= last; i++) {
 				txt += "<tr><th rowspan='4'>"+(last-i+1)+"</th>";
 				txt += "<td>Data</td>";
 				txt += "<td>"+dataAtualFormatada(allData[last-i].data)+"</td></tr>";
@@ -296,7 +318,7 @@ var allData;
 			var last = allData.length;
 			var i;
 			var txt = "<div class='container-fluid'><h2>Histórico de instalações</h2><div class='panel-group' id='accordion'>";
-			for (i = 1; i < last; i++) {
+			for (i = 0; i <= last; i++) {
 				if(allData[last-i] != null && allData[last-i].instalador_info != null){
 				var collapse = "collapse"+i;
 				var accordion = "accordion"+i;
@@ -309,19 +331,52 @@ var allData;
 				txt += "<div class='panel panel-default'>";
 				txt += "<div class='panel-heading'>";
 				txt += "<h4 class='panel-title'>";
-				txt += "<a data-toggle='collapse' data-parent='#accordion' href='#"+collapse+"'>"+allData[last-i].estado+" - "+allData[last-i].cidade +" - "+dataAtualFormatada(allData[last-i].data)+"</a>";
+				txt += "<a data-toggle='collapse' data-parent='#accordion' href='#"+collapse+"'>"+dataAtualFormatada(allData[last-i].data)+" - "+allData[last-i].estado +" - "+allData[last-i].modelo+"</a>";
+				//txt += "<a data-toggle='collapse' data-parent='#accordion' href='#"+collapse+"'>"+dataAtualFormatada(allData[last-i].data)+" - "+allData[last-i].estado+" - "+allData[last-i].cidade +" - "+allData[last-i].modelo+"</a>";
 				txt += "</h4></div><div id='"+collapse+"' class='panel-collapse collapse'>";
 				txt += "<div class='panel-body'>";
 				
-				/*txt += "<div><h2>"+allData[last-i].cidade+"</h2><ul>";
-				txt += "<div><ul>";
-				txt += "<li class='listaInfo'><p class='alignleft'>Modelo: <p class='aligncenter'>"+allData[last-i].modelo+"</p></p></li>";
-				txt += "<li class='listaInfo'><p class='alignleft'>Serial: <p class='aligncenter'>"+allData[last-i].serial+"</p></p></li>";
-				txt += "<li class='listaInfo'><p class='alignleft'>Numero: <p class='aligncenter'>"+allData[last-i].numero+"</p></p></li>";
 				
-				txt += "</ul></div>";
-				*/
-				 
+				
+				txt += "<table style='overflow-x:auto;' class='modelo'>";
+				
+				txt += "<tr><td>Responsável</td>";
+				txt += "<td>"+allData[last-i].instalador_info.nome+"</td></tr>";
+				
+				txt += "<tr><td>Cliente</td>";
+				txt += "<td>"+allData[last-i].nome+"</td></tr>";
+				
+				
+				/*
+				txt += "<tr><td>Modelo</td>";
+				txt += "<td>"+allData[last-i].modelo+"</td></tr>";
+				txt += "<tr><td>Serial</td>";
+				txt += "<td>"+allData[last-i].serial+"</td></tr>";
+				txt += "<td>Número</td>";
+				txt += "<td style='width:100%'>"+allData[last-i].numero+"</td></tr>";*/
+				
+				txt += "<td>Feedback</td>";
+				txt += "<td style='width:100%'>"+allData[last-i].comentario+"</td></tr>";
+				
+				var j = 0;
+				
+				txt += "<td>Estrelas</td>";
+				txt += "<td style='width:100%'>";
+				while(j < allData[last-i].estrela){
+					txt += "<span class='fa fa-star checked'></span>";
+					j++;
+				}
+				while(j < 5){
+					txt += "<span class='fa fa-star'></span>";
+					j++;
+				}
+				
+				txt += "</td></tr>";
+				
+	
+				txt += "</table>";
+				
+
 				var txt2 = "<div class='container-fluid'><div class='panel-group2'>";
 				txt2 += "<div class='panel panel-default'>";
 				txt2 += "<div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse'  href='#"+clienteDados+"'>Dados Cliente</a></h4></div>";
@@ -331,18 +386,18 @@ var allData;
 				//txt2 += allData[last-i].nome;
 				
 				txt2 += "<table style='overflow-x:auto;' class='noback2'>";
-				txt2 += "<tr>";
-				txt2 += "<td>Cliente</td>";
-				txt2 += "<td>"+allData[last-i].nome+"</td></tr>";
+				
+				/*txt2 += "<tr><td>Cliente</td>";
+				txt2 += "<td>"+allData[last-i].nome+"</td></tr>";*/
 				
 				txt2 += "<tr><td>Telefone</td>";
 				txt2 += "<td>"+allData[last-i].telefone+"</td></tr>";
 				
-				txt2 += "<tr><td>CPF</td>";
-				txt2 += "<td>"+allData[last-i].cpf+"</td></tr>";
-	
 				txt2 += "<tr><td>Cidade</td>";
 				txt2 += "<td>"+allData[last-i].cidade+" - "+ allData[last-i].estado+"</td></tr>";
+				
+				txt2 += "<tr><td>CPF</td>";
+				txt2 += "<td>"+allData[last-i].cpf+"</td></tr>";
 				
 				txt2 += "<tr><td>CEP</td>";
 				txt2 += "<td style='width:100%'>"+allData[last-i].cep+"</td></tr>";
@@ -358,8 +413,8 @@ var allData;
 				
 				txt4 += "<table style='overflow-x:auto;' class='noback2'>";
 				txt4 += "<tr>";
-				txt4 += "<td>Responsável</td>";
-				txt4 += "<td>"+allData[last-i].instalador_info.nome+"</td></tr>";
+				/*txt4 += "<td>Responsável</td>";
+				txt4 += "<td>"+allData[last-i].instalador_info.nome+"</td></tr>";*/
 				
 				txt4 += "<tr><td>Telefone</td>";
 				txt4 += "<td>"+allData[last-i].instalador_info.telefone+"</td></tr>";
@@ -370,9 +425,9 @@ var allData;
 				txt4 += "<tr><td>CPF</td>";
 				txt4 += "<td>"+allData[last-i].instalador_info.cpf+"</td></tr>";
 	
-				txt4 += "<tr><td>Cidade</td>";
+				/*txt4 += "<tr><td>Cidade</td>";
 				txt4 += "<td>"+allData[last-i].instalador_info.cidade+" - "+ allData[last-i].instalador_info.estado+"</td></tr>";
-				
+				*/
 				txt4 += "<tr><td>CEP</td>";
 				txt4 += "<td style='width:100%'>"+allData[last-i].cep+"</td></tr>";
 				txt4 += "</table>";
@@ -395,27 +450,27 @@ var allData;
 				txt3 += "<td>"+allData[last-i].modelo+"</td></tr>";
 				
 				txt3 += "<tr><td>Serial</td>";
-				txt3 += "<td>"+allData[last-i].serial+"</td></tr>";
+				txt3 += "<td style='width:100%'>"+allData[last-i].serial+"</td></tr>";
 				
-				txt3 += "<td>Número</td>";
-				txt3 += "<td style='width:100%'>"+allData[last-i].modelo+"</td></tr>";
+			/*	txt3 += "<td>Número</td>";
+				txt3 += "<td style='width:100%'>"+allData[last-i].numero+"</td></tr>";*/
 	
 				txt3 += "</table>";
 				
 				
 				var j;
-				txt3 += "<div class='made'><h3>Procedimentos realizados</h3><ul>";
+				txt3 += "<div class='made'><h3>Procedimentos realizados</h3><ul class='a'>";
 				for(j = 0; j < allData[last-i].passos.length; j++){
 					
-					txt3 += "<li class='listaInfo'>"+allData[last-i].passos[j]+"</li>";
+					txt3 += "<li>"+allData[last-i].passos[j]+"</li>";
 						
 				}
 				txt3 += "</ul></div>";
 				
-				txt3 += "<div class='notMade'><h3>Procedimentos não realizados</h3><ul>";
+				txt3 += "<div class='notMade'><h3>Procedimentos não realizados</h3><ul class='a'>";
 				for(j = 0; j < allData[last-i].passos_nao.length; j++){
 					
-					txt3 += "<li class='listaInfo'>"+allData[last-i].passos_nao[j]+"</li>";
+					txt3 += "<li>"+allData[last-i].passos_nao[j]+"</li>";
 						
 				}
 				txt3 += "</ul></div>";
@@ -423,15 +478,11 @@ var allData;
 				if(allData[last-i].motivo != ""){
 					txt3 += "<div class='motivo'><h3>Comentário do responsável</h3><ul>";
 					txt3 += "<li class='listaInfo'>"+allData[last-i].motivo+"</li></ul></div>";
-				
-					
+			
 				}
-				
-				
+					
 				txt3 += "</div></div></div></div></div>";
-				
-
-				
+		
 				txt += txt2+txt4+txt3;
 				txt += "</div></div></div>";
 			}}
@@ -468,9 +519,7 @@ var allData;
             });
         })(jQuery);
 
-        //url: 'https://api.mlab.com/api/1/databases/tecsdb/collections/instalacaos?apiKey=FadNlSlxW08n39zzET_9idXHX-6AyL3w',
-        //url: 'https://pacific-forest-15813.herokuapp.com/inst',
-		
+    	
 		var num;        
         var months = ["JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"];
         var ests = ["AC","AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"];
@@ -488,7 +537,7 @@ var allData;
             
 
             $.ajax({
-                //url: 'https://api.mlab.com/api/1/databases/tecsdb/collections/instalacaos?apiKey=FadNlSlxW08n39zzET_9idXHX-6AyL3w',
+      
                 url: 'https://pacific-forest-15813.herokuapp.com/inst3',
 				//url: 'http://192.168.0.11:3000/inst3',
                 type: 'GET',
@@ -502,7 +551,7 @@ var allData;
 
                     ests.forEach(function (item) {
                         arrayUnsort.push(makeLine(anoData, item));
-                       
+               
                     });
                    
                     var arraySort = arrayUnsort.sort(function (a, b) {
@@ -515,7 +564,7 @@ var allData;
                     tBody += "</tbody>";
                     var tabela = "<table id='t01'>" + tHead + tBody + "</table>";
                     $('#tabelaInfo').html(tabela);
-					populateHist2();
+					populateHist();
 					populateHistAll();
                 },
                 error: function (xhr, ajaxOptions, throwwnError) {
@@ -565,20 +614,7 @@ var allData;
             for (i = 0; i < arrEst.length; i++) {
                 stars += arrEst[i].estrela;
             }
-          /*
-            var Jan = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 0;});
-            var Fev = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 1;});
-            var Mar = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 2;});
-            var Abr = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 3;});
-            var Mai = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 4;});
-            var Jun = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 5;});
-            var Jul = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 6;});
-            var Ago = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 7;});
-            var Set = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 8;});
-            var Out = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 9;});
-            var Nov = arrEst.filter(function (item) {var d = new Date(item.data["Sdate"]);return d.getMonth() == 10;});
-            var Dez = arrEst.filter(function (item) { var d = new Date(item.data["Sdate"]); return d.getMonth() == 11; });
-			*/
+     
 			var Jan = arrEst.filter(function (item) {var d = new Date(item.data);return d.getMonth() == 0;});
             var Fev = arrEst.filter(function (item) {var d = new Date(item.data);return d.getMonth() == 1;});
             var Mar = arrEst.filter(function (item) {var d = new Date(item.data);return d.getMonth() == 2;});
@@ -638,24 +674,7 @@ var allData;
         }
         
         
-        /*var filtered = arr.filter(function (item) {
-            return item.estado == "AR";
-        });*/
-		
-		/*
-		function deleteRow() {
-		  document.getElementById("myTable").deleteRow(-1);
-		  document.getElementById("myTable").deleteRow(-1);
-		  document.getElementById("myTable").deleteRow(-1);
-		  document.getElementById("myTable").deleteRow(-1);
-		}
-		
-		
-		*/
-
-
-
-    
+         
 
 JS;
 $position = \yii\web\View::POS_READY;
@@ -702,6 +721,13 @@ $this->registerCss("
 			
             width: 100%;
         }
+		
+		.right { 
+		 color: green;   
+		}
+		.wrong {
+		 color: red;   
+		}
 
         #t01 th, #t01 td {
             text-align: center;
@@ -717,7 +743,7 @@ $this->registerCss("
 		
 		.modelo{
 			border: 1px solid black;
-			margin-bottom:1px;
+			margin-bottom:10px;
 			font-size: 20px;
 		}
 		
@@ -963,9 +989,16 @@ $this->registerCss("
 		
 		
 		ul {
-		  list-style-type: none;
-		  margin: 0;
-		  padding: 0;
+		  list-style-type: circle;
+		  
+		}
+		
+		ul.a{
+			
+			list-style-type: circle;
+			display: block;
+			width: 100%;
+			font-size: 20px;
 		}
 		 
 
@@ -981,17 +1014,17 @@ $this->registerCss("
 			width: 100%;
 			font-size: 20px;
 
-
+/*
 			-webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
 			-moz-transition: font-size 0.3s ease, background-color 0.3s ease;
 			-o-transition: font-size 0.3s ease, background-color 0.3s ease;
 			-ms-transition: font-size 0.3s ease, background-color 0.3s ease;
-			transition: font-size 0.3s ease, background-color 0.3s ease;
+			transition: font-size 0.3s ease, background-color 0.3s ease;*/
 		}
-		 
+		 /*
 		.listaInfo:hover {
 			font-size: 30px;
-		}
+		}*/
 		
 		
 		
@@ -1000,6 +1033,10 @@ $this->registerCss("
 			text-align:left;
 			width:33.33333%;
 			
+		}
+		
+		.checked {
+		  color: orange;
 		}
 		.aligncenter {
 			float: left;
@@ -1646,4 +1683,5 @@ $this->registerJsFile('https://js.pusher.com/4.3/pusher.min.js', ['depends' => [
 
 	
 		</div>
+		
 </div>
